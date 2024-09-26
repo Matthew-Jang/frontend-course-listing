@@ -1,3 +1,13 @@
+<script setup>
+import { ref } from 'vue'
+
+const courses = ref([
+  { id: 1, department: 'CS', courseName: 'Intro to Programming', level: 'Beginner', hours: 3 },
+  { id: 2, department: 'CS', courseName: 'Data Structures', level: 'Intermediate', hours: 4 },
+  { id: 3, department: 'CS', courseName: 'Algorithms', level: 'Advanced', hours: 4 }
+])
+</script>
+
 <template>
   <v-container>
     <h1>Courses</h1>
@@ -13,7 +23,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="course in courses" :key="course.id">
+        <!--:key="course.id"-->
+        <tr v-for="course in courses">
           <td>{{ course.department }}</td>
           <td>{{ course.courseName }}</td>
           <td>{{ course.level }}</td>
@@ -32,15 +43,7 @@
   </v-container>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-
-const courses = ref([
-  { id: 1, department: 'CS', courseName: 'Intro to Programming', level: 'Beginner', hours: 3 },
-  { id: 2, department: 'CS', courseName: 'Data Structures', level: 'Intermediate', hours: 4 },
-  { id: 3, department: 'CS', courseName: 'Algorithms', level: 'Advanced', hours: 4 }
-])
-</script>
+methods: { updateCourse() { }, deleteCourse() { } }
 
 <style scoped>
 .table {
