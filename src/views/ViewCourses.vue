@@ -12,6 +12,8 @@ const fetchCourses = async () => {
     console.error('Error fetching courses:', error)
   }
 }
+
+onMounted(fetchCourses)
 </script>
 
 <template>
@@ -52,8 +54,6 @@ const fetchCourses = async () => {
     </table>
   </v-container>
 </template>
-
-methods: { updateCourse() { }, deleteCourse() { } }
 
 <style scoped>
 .table {
