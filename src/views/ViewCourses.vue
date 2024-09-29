@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getCourses, deleteCourse } from '../services/courseService.js'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const courses = ref([])
 
 const fetchCourses = async () => {
@@ -13,71 +15,62 @@ const fetchCourses = async () => {
   }
 }
 
+const updateCourse = (id) => {
+  router.push({ name: 'UpdateCoures', params: { id } })
+}
+
 onMounted(fetchCourses)
 </script>
 
 <template>
   <v-container>
     <h1>Courses</h1>
-    <v-btn color="primary">Add Course</v-btn>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Department</th>
-          <th>Course Number</th>
-          <th>Level</th>
-          <th>Hours</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!--:key="course.id"-->
-        <tr v-for="course in courses">
-          <td>{{ course.dept }}</td>
-          <td>{{ course.course_number }}</td>
-          <td>{{ course.Level }}</td>
-          <td>{{ course.Hours }}</td>
-          <td>{{ course.Name }}</td>
-          <td>{{ course.Description }}</td>
-          <td>
-            <div class="button-group">
-              <!-- Update button -->
-              <v-btn color="green" @click="updateCourse(course.id)">Update</v-btn>
-              <!-- Delete button -->
-              <v-btn color="red" @click="deleteCourse(course.id)">Delete</v-btn>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <v-data-table
+      :headers="[
+        { text: 'Departement', value: 'dept', width: '100px' },
+        { text: 'Course Number', value: 'course_number', width: '100px' },
+        { text: 'Level', value: 'Level', width: '50px' },
+        { text: 'Hours', value: 'Hours', width: '50px' },
+        { text: 'Name', value: 'Name', width: '300px' },
+        // { text: 'Description', value: 'Description', align: 'start', width: '150px' },
+        { text: 'Actions', value: 'actions', sortable: false, width: '150px' }
+      ]"
+      :items="courses"
+      :items-per-page="10"
+      class="elevation-1"
+      style="width: 1000px"
+    >
+      <template v-slot:item.actions="{ item }">
+        <div class="button-group">
+          <!-- Update button -->
+          <v-btn color="green" @click="updateCourse(course.id)">Update</v-btn>
+          <!-- Delete button -->
+          <v-btn color="red" @click="deleteCourse(course.id)">Delete</v-btn>
+        </div>
+      </template>
+
+      <!-- <template v-slot:item.Description="{ item }">
+        <div class="description">{{ item.Description }}</div>
+      </template> -->
+    </v-data-table>
   </v-container>
 </template>
 
 <style scoped>
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  border: 3px solid #ddd;
-  padding: 20px;
-  text-align: center;
-}
-
-.table th {
-  background-color: #f2f2f2;
-}
-
 .button-group {
   display: flex; /* Use flexbox for spacing */
-  justify-content: flex-start; /* Align buttons to the start */
+  justify-content: flex-end; /* Align buttons to the start */
 }
 
 .button-group .v-btn {
   margin-right: 10px; /* Add space between buttons */
 }
+
+/* .description {
+  max-width: 200px; /* Set a max width for the description 
+white-space: nowrap; /* Prevent text from wrapping 
+overflow: hidden; /* Hide overflow text 
+text-overflow: ellipsis; /* Add ellipsis for overflow text 
+} */
 </style>
