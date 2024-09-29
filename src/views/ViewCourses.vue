@@ -1,11 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getCourses, deleteCourse } from '../services/courseService.js'
 
-const courses = ref([
-  { id: 1, department: 'CS', courseName: 'Intro to Programming', level: 'Beginner', hours: 3 },
-  { id: 2, department: 'CS', courseName: 'Data Structures', level: 'Intermediate', hours: 4 },
-  { id: 3, department: 'CS', courseName: 'Algorithms', level: 'Advanced', hours: 4 }
-])
+const courses = ref([])
+
+const fetchCourses = async () => {
+  try {
+    const response = await getCourses()
+    courses.value = response.data
+  } catch (error) {
+    console.error('Error fetching courses:', error)
+  }
+}
+
+onMounted(fetchCourses)
 </script>
 
 <template>
@@ -16,19 +24,23 @@ const courses = ref([
       <thead>
         <tr>
           <th>Department</th>
-          <th>Course Name</th>
+          <th>Course Number</th>
           <th>Level</th>
           <th>Hours</th>
+          <th>Name</th>
+          <th>Description</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <!--:key="course.id"-->
         <tr v-for="course in courses">
-          <td>{{ course.department }}</td>
-          <td>{{ course.courseName }}</td>
-          <td>{{ course.level }}</td>
-          <td>{{ course.hours }}</td>
+          <td>{{ course.dept }}</td>
+          <td>{{ course.course_number }}</td>
+          <td>{{ course.Level }}</td>
+          <td>{{ course.Hours }}</td>
+          <td>{{ course.Name }}</td>
+          <td>{{ course.Description }}</td>
           <td>
             <div class="button-group">
               <!-- Update button -->
@@ -42,8 +54,6 @@ const courses = ref([
     </table>
   </v-container>
 </template>
-
-methods: { updateCourse() { }, deleteCourse() { } }
 
 <style scoped>
 .table {
