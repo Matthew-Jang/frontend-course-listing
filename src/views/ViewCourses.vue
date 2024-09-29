@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getCourses, deleteCourse } from '../services/courseService.js'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const courses = ref([])
 
 const fetchCourses = async () => {
@@ -11,6 +13,10 @@ const fetchCourses = async () => {
   } catch (error) {
     console.error('Error fetching courses:', error)
   }
+}
+
+const updateCourse = (id) => {
+  router.push({ name: 'UpdateCoures', params: { id } })
 }
 
 onMounted(fetchCourses)
