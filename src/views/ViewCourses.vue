@@ -16,7 +16,10 @@ const fetchCourses = async () => {
 }
 
 const updateCourse = (id) => {
-  router.push({ name: 'UpdateCoures', params: { id } })
+  router.push({
+    name: 'update',
+    params: { id }
+  })
 }
 
 onMounted(fetchCourses)
@@ -41,7 +44,7 @@ onMounted(fetchCourses)
       class="elevation-1"
       style="width: 1000px"
     >
-      <template v-slot:item.actions="{ item }">
+      <template v-slot:item.actions="{ item: course }">
         <div class="button-group">
           <!-- Update button -->
           <v-btn color="green" @click="updateCourse(course.id)">Update</v-btn>
