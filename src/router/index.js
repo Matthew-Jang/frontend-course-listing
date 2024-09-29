@@ -23,8 +23,8 @@ const router = createRouter({
       component: ViewCourses
     },
     {
-      path: '/courses/update',
-      name: 'updateCourse',
+      path: '/courses/update/:id',
+      name: 'update',
       component: UpdateCourse
     }
   ]
