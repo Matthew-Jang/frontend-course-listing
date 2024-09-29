@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { getCourseById } from '../services/courseService.js'
+import { ref, onMounted, toRaw } from 'vue'
+import { getCourseById, updateCourse } from '../services/courseService.js'
 import { useRouter, useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -23,46 +23,80 @@ const fetchCourse = async () => {
   }
 }
 
+const onSave = async () => {
+  try {
+    await updateCourse(route.params.id, toRaw(course.value))
+    router.push({ name: 'courses' })
+  } catch (error) {
+    console.error('Error updating course:', error)
+  }
+}
+
 onMounted(fetchCourse)
 </script>
 
 <template>
-  <v-container>
-    <h1>Update Course</h1>
+  <v-container class="d-flex justify-center align-center" style="height: 100vh">
     <v-form>
       <v-row>
-        <v-col>
-          <v-text-field v-model="course.dept" label="Department" width="100px" />
+        <!-- Text Field -->
+        <v-col cols="12">
+          <v-text-field v-model="course.dept" label="Enter Dept" outlined clearable></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field v-model="course.course_number" label="Course Number" width="100px" />
+
+        <!-- Text Field -->
+        <v-col cols="12">
+          <v-text-field
+            v-model="course.course_number"
+            label="Enter course number"
+            outlined
+            clearable
+          ></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field v-model="course.Level" label="Level" width="50px" />
+
+        <!-- Text Field -->
+        <v-col cols="12">
+          <v-text-field
+            v-model="course.Level"
+            label="Enter level"
+            outlined
+            clearable
+          ></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field v-model="course.Hours" label="Hours" width="50px" />
+
+        <!-- Text Field -->
+        <v-col cols="12">
+          <v-text-field
+            v-model="course.Hours"
+            label="Enter hours"
+            outlined
+            clearable
+          ></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field v-model="course.Name" label="Name" width="300px" />
+
+        <!-- Text Field -->
+        <v-col cols="12">
+          <v-text-field v-model="course.Name" label="Enter name" outlined clearable></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field v-model="course.Description" label="Description" width="150px" />
+
+        <!-- Text Field -->
+        <v-col cols="12">
+          <v-text-field
+            v-model="course.Description"
+            label="Enter description"
+            outlined
+            clearable
+          ></v-text-field>
         </v-col>
       </v-row>
-      <div class="button-group">
-        <!-- Update button -->
-        <v-btn color="green" @click="updateCourse">Update</v-btn>
-        <!-- Delete button -->
-        <v-btn color="red" @click="deleteCourse(course.id)">Delete</v-btn>
-      </div>
+
+      <!-- Button Section -->
+      <v-row class="mt-4" justify="space-between">
+        <!-- Cancel Button -->
+        <v-btn color="error" @click="onCancel"> Cancel </v-btn>
+        <!-- Save Button -->
+        <v-btn color="primary" @click="onSave"> Save </v-btn>
+      </v-row>
     </v-form>
   </v-container>
 </template>
-
-<style scoped>
-.button-group {
-  display: flex; /* Use flexbox for spacing */
-  justify-content: flex-end; /* Align buttons to the start */
-}
-</style>
