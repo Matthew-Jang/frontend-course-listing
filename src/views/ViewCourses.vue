@@ -25,17 +25,21 @@ const updateCourse = (id) => {
 }
 
 const toggleModal = (inputCourseToDeleteID) => {
-  courseToDeleteID.value = inputCourseToDeleteID 
-  showModal.value = !showModal.value 
+  console.log('toggle modal: ', inputCourseToDeleteID)
+
+  courseToDeleteID.value = inputCourseToDeleteID
+  showModal.value = !showModal.value
 }
 
 const confirmDelete = async () => {
   try {
+    console.log('confirm delete: ', courseToDeleteID)
+
     await deleteCourse(courseToDeleteID.value)
   } catch (error) {
     console.error('Error deleting course:', error)
   }
-  fetchCourses();
+  fetchCourses()
 }
 
 onMounted(fetchCourses)
@@ -48,7 +52,7 @@ onMounted(fetchCourses)
     <v-data-table
       :headers="[
         { text: 'Departement', value: 'dept', width: '100px' },
-        { text: 'Course Number', value: 'Course Number', width: '100px' },
+        { text: 'Course Number', value: 'course_number', width: '100px' },
         { text: 'Level', value: 'Level', width: '50px' },
         { text: 'Hours', value: 'Hours', width: '50px' },
         { text: 'Name', value: 'Name', width: '300px' },
@@ -63,9 +67,9 @@ onMounted(fetchCourses)
       <template v-slot:item.actions="{ item: course }">
         <div class="button-group">
           <!-- Update button -->
-          <v-btn color="green" @click="updateCourse(course)">Update</v-btn>
+          <v-btn color="green" @click="updateCourse(course.course_number)">Update</v-btn>
           <!-- Delete button -->
-          <v-btn color="red" @click="toggleModal(course['Course Number'])">Delete</v-btn>
+          <v-btn color="red" @click="toggleModal(course.course_number)">Delete</v-btn>
         </div>
       </template>
     </v-data-table>
@@ -80,7 +84,7 @@ onMounted(fetchCourses)
             <v-card-text> Are you sure you want to delete this course? </v-card-text>
             <v-card-actions>
               <v-btn color="green" @click="showModal = false">Cancel</v-btn>
-              <v-btn color="red" @click="confirmDelete(); showModal = false;">Delete</v-btn>
+              <v-btn color="red" @click="confirmDelete() && (showModal = false)">Delete</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
