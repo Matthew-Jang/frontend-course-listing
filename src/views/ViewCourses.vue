@@ -47,9 +47,9 @@ onMounted(fetchCourses)
       <template v-slot:item.actions="{ item: course }">
         <div class="button-group">
           <!-- Update button -->
-          <v-btn color="green" @click="updateCourse(course.id)">Update</v-btn>
+          <v-btn color="green" @click="updateCourse(course.course_number)">Update</v-btn>
           <!-- Delete button -->
-          <v-btn color="red" @click="deleteCourse(course.id)">Delete</v-btn>
+          <v-btn color="red" @click="deleteCourse(course.course_number)">Delete</v-btn>
         </div>
       </template>
 
