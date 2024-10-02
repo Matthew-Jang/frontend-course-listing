@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import ViewCourses from '../views/ViewCourses.vue'
 import AddCourse from '../views/AddCourse.vue'
+import UpdateCourse from '../views/UpdateCourse.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,8 +25,13 @@ const router = createRouter({
     },
     {
       path: '/courses/add',
-      name: 'AddCourse',
+      name: 'add',
       component: AddCourse
+    },
+    {
+      path: '/courses/update/:id',
+      name: 'update',
+      component: UpdateCourse
     }
   ]
 })
