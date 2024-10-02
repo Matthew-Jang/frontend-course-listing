@@ -5,6 +5,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const courses = ref([])
+const showModal = ref(false)
+const courseToDeleteID = ref(null)
 
 const fetchCourses = async () => {
   try {
@@ -22,6 +24,20 @@ const updateCourse = (id) => {
   })
 }
 
+const toggleModal = (inputCourseToDeleteID) => {
+  courseToDeleteID.value = inputCourseToDeleteID 
+  showModal.value = !showModal.value 
+}
+
+const confirmDelete = async () => {
+  try {
+    await deleteCourse(courseToDeleteID.value)
+  } catch (error) {
+    console.error('Error deleting course:', error)
+  }
+  fetchCourses();
+}
+
 onMounted(fetchCourses)
 </script>
 
@@ -32,7 +48,7 @@ onMounted(fetchCourses)
     <v-data-table
       :headers="[
         { text: 'Departement', value: 'dept', width: '100px' },
-        { text: 'Course Number', value: 'course_number', width: '100px' },
+        { text: 'Course Number', value: 'Course Number', width: '100px' },
         { text: 'Level', value: 'Level', width: '50px' },
         { text: 'Hours', value: 'Hours', width: '50px' },
         { text: 'Name', value: 'Name', width: '300px' },
@@ -47,16 +63,29 @@ onMounted(fetchCourses)
       <template v-slot:item.actions="{ item: course }">
         <div class="button-group">
           <!-- Update button -->
-          <v-btn color="green" @click="updateCourse(course.course_number)">Update</v-btn>
+          <v-btn color="green" @click="updateCourse(course)">Update</v-btn>
           <!-- Delete button -->
-          <v-btn color="red" @click="deleteCourse(course.course_number)">Delete</v-btn>
+          <v-btn color="red" @click="toggleModal(course['Course Number'])">Delete</v-btn>
         </div>
       </template>
-
-      <!-- <template v-slot:item.Description="{ item }">
-        <div class="description">{{ item.Description }}</div>
-      </template> -->
     </v-data-table>
+
+    <!-- Modal for Delete Button -->
+    <template>
+      <div>
+        <!-- Modal -->
+        <v-dialog v-model="showModal" max-width="400">
+          <v-card>
+            <v-card-title class="headline">Confirm Deletion</v-card-title>
+            <v-card-text> Are you sure you want to delete this course? </v-card-text>
+            <v-card-actions>
+              <v-btn color="green" @click="showModal = false">Cancel</v-btn>
+              <v-btn color="red" @click="confirmDelete(); showModal = false;">Delete</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </template>
   </v-container>
 </template>
 
@@ -69,11 +98,4 @@ onMounted(fetchCourses)
 .button-group .v-btn {
   margin-right: 10px; /* Add space between buttons */
 }
-
-/* .description {
-  max-width: 200px; /* Set a max width for the description 
-white-space: nowrap; /* Prevent text from wrapping 
-overflow: hidden; /* Hide overflow text 
-text-overflow: ellipsis; /* Add ellipsis for overflow text 
-} */
 </style>
