@@ -31,6 +31,7 @@ const toggleModal = (inputCourseToDeleteID) => {
 
 const confirmDelete = async () => {
   try {
+    console.log('course: ', courseToDeleteID.value)
     await deleteCourse(courseToDeleteID.value)
   } catch (error) {
     console.error('Error deleting course:', error)
@@ -48,7 +49,7 @@ onMounted(fetchCourses)
     <v-data-table
       :headers="[
         { text: 'Departement', value: 'dept', width: '100px' },
-        { text: 'Course Number', value: 'Course Number', width: '100px' },
+        { text: 'Course Number', value: 'course_number', width: '100px' },
         { text: 'Level', value: 'Level', width: '50px' },
         { text: 'Hours', value: 'Hours', width: '50px' },
         { text: 'Name', value: 'Name', width: '300px' },
@@ -63,9 +64,9 @@ onMounted(fetchCourses)
       <template v-slot:item.actions="{ item: course }">
         <div class="button-group">
           <!-- Update button -->
-          <v-btn color="green" @click="updateCourse(course)">Update</v-btn>
+          <v-btn color="green" @click="updateCourse(course.course_number)">Update</v-btn>
           <!-- Delete button -->
-          <v-btn color="red" @click="toggleModal(course['Course Number'])">Delete</v-btn>
+          <v-btn color="red" @click="toggleModal(course.course_number)">Delete</v-btn>
         </div>
       </template>
     </v-data-table>
@@ -90,12 +91,6 @@ onMounted(fetchCourses)
 </template>
 
 <style scoped>
-.button-group {
-  display: flex; /* Use flexbox for spacing */
-  justify-content: flex-end; /* Align buttons to the start */
-}
 
-.button-group .v-btn {
-  margin-right: 10px; /* Add space between buttons */
-}
+
 </style>

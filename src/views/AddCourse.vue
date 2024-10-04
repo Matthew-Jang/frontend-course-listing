@@ -25,18 +25,6 @@ const onSave = async () => {
 
     console.log('New Course Data:', newCourse)
 
-    if (
-      !dept.value ||
-      !course_number.value ||
-      !Level.value ||
-      !Hours.value ||
-      !Name.value ||
-      !Description.value
-    ) {
-      alert('All fields are required!')
-      return
-    }
-
     await addCourse(newCourse)
     router.push('/courses')
   } catch (error) {
