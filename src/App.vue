@@ -14,7 +14,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink :to="{ name: 'add' }">Add Course</RouterLink>
       </v-btn>
       <v-btn text>
-        <RouterLink to="/courses">Courses</RouterLink>
+        <RouterLink :to="{ name: 'courses' }">View Courses</RouterLink>
       </v-btn>
     </v-app-bar>
 
