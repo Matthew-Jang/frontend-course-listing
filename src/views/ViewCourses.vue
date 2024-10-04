@@ -95,6 +95,12 @@ onMounted(fetchCourses)
 </template>
 
 <style scoped>
+.button-group {
+  display: flex; /* Use flexbox for spacing */
+  justify-content: flex-end; /* Align buttons to the start */
+}
 
-
+.button-group .v-btn {
+  margin-right: 10px; /* Add space between buttons */
+}
 </style>
