@@ -35,11 +35,6 @@ const onSave = async () => {
 const onCancel = () => {
   router.push({ name: 'courses' })
 }
-
-function onCancel() {
-  router.push('/courses')
-}
-
 onMounted(fetchCourse)
 </script>
 
