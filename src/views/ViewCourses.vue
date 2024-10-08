@@ -8,6 +8,13 @@ const courses = ref([])
 const showModal = ref(false)
 const courseToDeleteID = ref(null)
 
+//
+console.log('Protocol:', window.location.protocol) // e.g., 'http:' or 'https:'
+console.log('Host:', window.location.host) // e.g., 'localhost:8080'
+console.log('Hostname:', window.location.hostname) // e.g., 'localhost'
+console.log('Port:', window.location.port) // e.g., '8080'
+//
+
 const fetchCourses = async () => {
   try {
     const response = await getCourses()
