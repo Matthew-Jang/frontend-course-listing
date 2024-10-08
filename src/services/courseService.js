@@ -1,16 +1,8 @@
 import axios from 'axios'
 
-// const api = axios.create({
-//   baseURL: 'http://project2.eaglesoftwareteam.com/api/course-t4'
-// })
-
 const api = axios.create({
-  baseURL: 'http://project2.eaglesoftwareteam.com:3014/api/course-t4'
+  baseURL: 'http://localhost:3014/course-t4'
 })
-
-// const api = axios.create({
-//   baseURL: 'http://localhost:3014/api/course-t4'
-// })
 
 export const getCourses = () => api.get('/')
 export const getCourseById = (id) => api.get(`/${id}`)
